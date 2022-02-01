@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Item from "../item";
+import ItemCounter from "../ItemCounter";
 
 const items = [
   { id: "1", name: "iPhone X", price: "999.99", createdBy: "Apple"},
