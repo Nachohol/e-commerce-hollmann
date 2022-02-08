@@ -1,35 +1,27 @@
-import { useState } from "react";
-import Item from "../item";
-import ItemCounter from "../ItemCounter";
+import { useState, useEffect } from "react";
+import { getMock } from "../helpers/mock";
+import ItemList from "../ItemList";
+import Bspinner from "./Spinner";
 
-const items = [
-  { id: "1", name: "iPhone X", price: "999.99", createdBy: "Apple"},
-  { id: "2", name: "iPhone XS", price: "888.99", createdBy: "Apple" },
-  { id: "3", name: "Galaxy Note", price: "888.00", createdBy: "Samsung" },
-  { id: "4", name: "Redmi Note 8", price: "300.00", createdBy: "Xiaomi" },
-];
 
 const ItemListContainer = () => {
-  const [selectedItem, setSelectedItem] = useState(null);
+
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect (()=>{
+    getMock
+      .then(res=>setData(res))
+      .catch(err=> console.log(err))
+      .finally(()=> setLoading(false))
+  },[])
+
+  console.log(data);
+  
 
   return (
     <div >
-      <div className = "seleccionProductos">
-        <h1>Lista de productos</h1>
-        <h3>Producto seleccionado</h3>
-        <p>{selectedItem ? selectedItem.name : "Ninguno"}</p>
-        <p>{selectedItem ? selectedItem.price : "Ninguno"}</p>
-        <p>{selectedItem ? selectedItem.id : "Ninguno"}</p>
-      </div>
-      {items.map(({ id, name, price }) => (
-        <Item
-          key={id}
-          id={id}
-          name={name}
-          price={price}
-          setSelectedItem={setSelectedItem}
-        />
-      ))}
+      {loading ? <Bspinner/> : <ItemList productos={data}/>}
     </div>
   );
 };
